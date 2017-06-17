@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+
+	<style>
+		.tab-menu {
+			list-style: none;
+			height:80px;
+		}
+		.tab-menu li {
+			width:99px;
+			height:40px;
+			background-position-y:0;
+			text-indent: -1000px;
+			overflow: hidden;
+			display: inline-block;
+			float:left;
+		}
+		.tab-menu li:hover {
+			background-position-y: -40px;
+		}
+		.tab-menu li.select {
+			background-position-y: -80px;
+			height:80px;
+		}
+		.tab-menu li.menuitem1 {
+			background-image: url(images/newbtn.bar.1.png);
+		}
+		.tab-menu li.menuitem2 {
+			background-image: url(images/newbtn.bar.2.png);
+		}
+		.tab-menu li.menuitem3 {
+			background-image: url(images/newbtn.bar.3.png);
+		}
+		.tab-menu li.menuitem4 {
+			background-image: url(images/newbtn.bar.4.png);
+		}
+		.tab-menu li.menuitem5 {
+			background-image: url(images/newbtn.bar.5.png);
+		}
+		.tab-menu li.menuitem6 {
+			background-image: url(images/newbtn.bar.6.png);
+		}
+
+	</style>
+	 
+    <script src="../../libs/jquery-1.11.0.min.js"></script>
+	<script>
+
+		/*
+		예제02: 예제: 함수 단위 코딩으로 만들어진 탭메뉴를 리터럴 방식으로 클래스를 만들어 주세요.
+			
+		 */
+		// 탭메뉴 관련 변수(전역)
+		var $tabMenu =null;
+		var $menuItems=null;
+		var $selectMenuItem=null;
+
+		$(document).ready(function(){
+			// 탭메뉴 요소 초기화
+			//init();
+			// 탭메뉴 요소에 이벤트 등록
+			//initEvent();
+		});
+
+		
+		/* 단계 01. 클래스 생성하기  */
+		/* 단계 05. 첫 번째 탭메뉴 인스턴스 생성하기 
+		 - 리터럴 방식의 경우 선언과 동시에 인스턴스가 만들어지기 때문에 
+		    인스턴스를 만들 필요 없이 tabMenu1을 인스턴스로 사용하면 된다. 
+		
+		*/
+		
+		var tabMenu1 = {
+			/* 단계 02. 변수를 프로퍼티로 만들기 */
+			$tabMenu : null,
+			$menuItems : null,
+			$selectMenuItem : null,
+		
+			/* 단계 03. 함수를 메서드로 만들기 */
+			/* 단계 04. 객체 내부에서 프로퍼티와 메서드 사용하기 */
+			init : function(){
+				this.$tabMenu = $("#tabMenu1");
+				this.$menuItems = this.$tabMenu.find("li");
+			},
+			initEvent : function(){
+				//★ 주의!! 
+				var objThis = this;
+				this.$menuItems.on("click",function(){
+					objThis.setSelectItem($(this));
+					// 이 함수 내부의 this는 탭 메뉴 객체가 아니라 
+					// 클릭 이벤트를 발생시킨 메뉴 아이템 항목인 li태그의 객체이기때문에
+					// objThis라는 지역변수를 만들어 탭메뉴의 setSelectItem()메서드를 호출하게 만든다.
+				});
+			},
+			setSelectItem : function($menuItem){
+				// 기존 선택메뉴 아이템을 비활성화 처리 하기
+				if(this.$selectMenuItem){
+					this.$selectMenuItem.removeClass("select");
+				}
+
+				// 신규 아이템 활성화 처리 하기
+				this.$selectMenuItem = $menuItem;
+				this.$selectMenuItem.addClass("select");
+			}
+			
+		}
+
+	</script>
+</head>
+	
+	<body>
+		<p>첫 번째 탭메뉴</p>
+		<ul class="tab-menu" id="tabMenu1">
+			<li class="menuitem1">google</li>
+			<li class="menuitem2">facebook</li>
+			<li class="menuitem3">pinterest</li>
+			<li class="menuitem4">twitter</li>
+			<li class="menuitem5">airbnb</li>
+			<li class="menuitem6">path</li>
+		</ul>
+
+	</body>
+</html>
