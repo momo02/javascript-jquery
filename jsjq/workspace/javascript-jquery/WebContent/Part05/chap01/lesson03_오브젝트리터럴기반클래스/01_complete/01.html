@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="../../libs/jquery-1.11.0.min.js"></script>
+<script>
+
+/*
+- lesson03. 오브젝트 리터럴 방식으로 클래스 만들기
+ */
+ 
+ //클래스 정의 및 인스턴스 생성
+ var user = {
+		name : "momo",
+		age : 20,
+		showInfo : function(){
+			document.write("name = " + this.name + ", age = " + this.age);
+		}
+}
+
+//메서드 접근
+user.showInfo();
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

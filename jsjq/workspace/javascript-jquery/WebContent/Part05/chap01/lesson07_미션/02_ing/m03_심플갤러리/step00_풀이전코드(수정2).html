@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> </title>
+
+    <style>
+        body {
+            font-size:9pt;
+        }
+        div.image-container{
+            position: relative;
+            border:1px solid #000;
+            height:600px;
+        }
+
+        div.image-container img{
+            position: absolute;
+            left:0;
+            top:0;
+            width:120px;
+        }
+
+
+    </style>
+ 
+    
+
+    <script type="text/javascript"  src="../../../libs/jquery-1.11.0.min.js"> </script>
+    <script>
+        /*
+
+            미션 03: 심플 갤러리를 클래스로 만들기
+            함수 단위 코딩으로 만들어진 심플 갤러리를 프로토타입 클래스로 만들어 주세요.
+
+        */
+
+        $(document).ready(function(){
+
+            var gallery1 = new Gallery({
+            	selector : "#container1 img",
+            	count : 6
+            });
+            var gallery2 = new Gallery({
+            	selector : "#container2 img"
+            });
+            
+            gallery1.showGallery();
+            gallery2.showGallery();
+            
+
+        });
+
+    	//클래스 생성 
+    	function Gallery(info){
+    		//이미지 목록을 나타내는 css선택자 
+    		this.$images = null;
+    		//가로로 출력할 이미지 개수
+    		this.count = info.count;
+    		//출력할 이미지 영역 너비
+    		this.width = info.width;
+    		//출력할 이미지 영역 높이
+    		this.height = info.height; 
+    		
+    		//이미지 정보값 중 입력되지 않는 값을 기본값으로 설정해주는 메서드인 setDefaultValue 추가
+    		this.setDefaultValue();
+    		
+    		//요소 초기화 
+    		this.init(info.selector);
+    		
+    	}
+    	
+    	
+    	//기본값 설정 메서드
+   		 Gallery.prototype.setDefaultValue = function(){
+   			
+	    	if(this.count == null){
+	    		this.count = 5;
+	    	}
+	    	if(this.width == null){
+	    		this.width = 150;
+	    	}
+	    	if(this.height == null){
+	    		this.height = 150;
+	    	} 
+   		} 
+    	
+    	
+    	//요소 초기화 메서드
+    	 Gallery.prototype.init = function(selector){
+    		
+    		this.$images = $(selector);
+    	} 
+    	
+    	//이미지 배열 메서드
+    	Gallery.prototype.showGallery = function(){
+ 					   		
+    		// 이미지 개수 구하기.
+            var length = this.$images.length;
+
+            // 이미지 배열하기.
+            for(var i=0;i<length;i++){
+                // n번째 이미지 구하기
+                var $img = this.$images.eq(i);
+
+                // 위치 값 구하기
+                var x = 100+((i%this.count)*this.width);
+                //console.log('x('+i+') >>' + (i%this.count) )
+				
+                //cf.i값이 count와 같아지면 x값이 다시 처음과 동일하게 됨
+                // (0%6) .../(6%6) -> 0 
+                // 0,1,2,3,4,5 (6개 가 놓이면 x값이 다시 동일하게 반복)                
+                var y = 100+(parseInt(i/this.count)*this.height);
+                //console.log('y('+i+')>>' + parseInt(i/this.count) )
+				// cf. (0/6 = 0)(1/6 =0)..  (6/6 = 1)(7/6 =1)... (12/6 =2 ) 
+                //cf.i값이 count의 배수가되면  y값이  커짐. 
+                //(6개 가 놓이면 y값이 커진다.)   
+                
+                // 위치 설정
+                $img.css({
+                    left:x,
+                    top:y
+                });
+            }
+    		
+    	}
+    	
+    
+    </script>
+</head>
+    
+<body>    
+    <p>container1</p>
+    <div class="image-container" id="container1">
+       
+        <img src="banners/1.png" >
+        <img src="banners/2.png" >
+        <img src="banners/3.png" >
+        <img src="banners/4.png" >
+        <img src="banners/5.png" >
+        <img src="banners/6.png" >
+        <img src="banners/7.png" >
+        <img src="banners/8.png" >   
+    </div>
+     <p>container2</p>
+     
+     <div class="image-container" id="container2">         
+        <img src="banners/1.png" >
+        <img src="banners/2.png" >
+        <img src="banners/3.png" >
+        <img src="banners/4.png" >
+        <img src="banners/5.png" >
+        <img src="banners/6.png" >
+        <img src="banners/7.png" >
+        <img src="banners/8.png" >   
+    </div>
+</body>
+
+</html>

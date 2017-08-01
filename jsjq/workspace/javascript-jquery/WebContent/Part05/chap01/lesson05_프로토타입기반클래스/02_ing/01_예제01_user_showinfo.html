@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD Xhtml 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> </title>
+
+	<script>
+	/*
+	- lesson05. 프로토타입 방식으로 클래스 만들기
+	  >>> 세 가지 클래스 정의 방식 중 가장 강력한 방법 
+                     실무에서 많이 사용하는 JQuery도 prototype방식으로 만들어져 있다.
+	 */
+	 
+		/*
+		 예제 01: 프로토타입 방식을 활용한 간단한 클래스 만들기
+		 */
+		// 클래스 생성자
+		function User(){
+			 //프로퍼티 정의
+			 this.name = "momo";
+			 this.age = 20;
+		 }
+
+		// 메서드 정의
+		/* 프로토타입 방식에서 메서드는 prototype이라는 곳에 만들어준다.
+		함수 방식과 비교했을 때, 함수 방식은 생성자 내부에서 this속성에 메서드를 생성하며
+		프로토타입 방식은 생성자 밖에서 prototype속성에 메서드를 생성한다.
+		*/
+		User.prototype.showInfo = function(){
+			document.write("name = " + this.name + ", age = " + this.age);			
+		}
+
+		// 인스턴스 생성
+		var user = new User();
+		// 메서드 호출
+		user.showInfo();
+
+	</script>
+</head>
+
+	<body>
+
+	</body>
+
+</html>
