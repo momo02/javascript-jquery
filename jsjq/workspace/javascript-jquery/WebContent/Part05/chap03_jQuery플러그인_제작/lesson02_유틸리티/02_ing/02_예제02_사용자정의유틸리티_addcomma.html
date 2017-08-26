@@ -36,26 +36,21 @@
 
 	
 	 (function($){
-		$.addComma = function(numStr){
-			
-			alert(numStr.length); 
-			
-			var result = "";
-			
-			for(var i= numStr.length; i >0 ; i++){
-				
-				var stIdx = numStr.length;
-				if((i%3)==0){
-					result += "," + numStr.substring(stIdx, numStr.length-i)
-					stIdx = i;
-				}
-			
-			}
-			
-		}
-		 
-	 })(jQuery);
-	 
+	        // addComma 유틸리 정의
+	        $.addComma=function(value){
+	            // 숫자를 문자로 형변환;
+	            var data = value+"";
+	            // 문자를 배열로 만들기
+	            var aryResult = data.split("");
+	            // 배열 요소를 뒤에서 3자리 마다 콤마 추가하기
+	            var startIndex = aryResult.length-3;
+	            for(var i=startIndex;i>0;i-=3) {
+	                aryResult.splice(i, 0, ",");
+	            }
+	            // 결과 값 리턴
+	            return aryResult.join("");
+	        }	
+	    })(jQuery);
 	 
 	
     $(document).ready(function(){
