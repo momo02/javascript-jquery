@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>Untitled Document</title>
+
+
+	<script src="../../libs/jquery-1.11.0.min.js"></script>
+	<script>
+		/*
+		 예제 01: jQuery의 trim 유틸리티 사용하기
+
+		 */
+		$(document).ready(function(){
+			var data ="          abcde     ";
+			// trim() 메서드 활용 공백 제거
+			console.log("1. 실행 전 = "+data+", 실행 후 = "+$.trim(data));
+			// trim() 메서드 활용 공백 제거
+			console.log("2. 실행 전 = "+data+", 실행 후 = "+jQuery.trim(data));
+		});
+
+	</script>
+</head>
+
+<body>
+	
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Cache-Control" content="No-Cache">
+<meta http-equiv="Pragma" content="No-Cache">
+
+<title>Untitled Document</title>
+
+
+<script src="../../libs/jquery-1.11.0.min.js"></script>
+<script>
+	/* 
+     예제 02 3자리수마다 콤마를 추가하는 유틸리티 만들기
+     다음 실행 결과처럼 숫자를 넣고 실행하면 결과값으로 3자리수마다 콤마를 추가해주는 유틸리티를 만들
+     어 주세요.
+
+     실행예
+         $(document).ready(function(){
+             document.write("123 =>", $.addComma("123"), "<br>");
+             document.write("1234 =>", $.addComma("1234"), "<br>");
+             document.write("12345 =>", $.addComma("12345"), "<br>");
+             document.write("123456 =>", $.addComma("123456"), "<br>");
+             document.write("1234567 =>", $.addComma("1234567"), "<br>");
+         });
+
+     실행결과
+         123 =>123
+         1234 =>1,234
+         12345 =>12,345
+         123456 =>123,456
+         1234567 =>1,234,567
+
+	 */
+	
+
+	
+	 (function($){
+		$.addComma = function(numStr){
+			
+			alert(numStr.length); 
+			
+			var result = "";
+			
+			for(var i= numStr.length; i >0 ; i++){
+				
+				var stIdx = numStr.length;
+				if((i%3)==0){
+					result += "," + numStr.substring(stIdx, numStr.length-i)
+					stIdx = i;
+				}
+			
+			}
+			
+		}
+		 
+	 })(jQuery);
+	 
+	 
+	
+    $(document).ready(function(){
+        document.write("123 =>", $.addComma("123"), "<br>");
+        document.write("1234 =>", $.addComma("1234"), "<br>");
+        document.write("12345 =>", $.addComma("12345"), "<br>");
+        document.write("123456 =>", $.addComma("123456"), "<br>");
+        document.write("1234567 =>", $.addComma("1234567"), "<br>");
+    });
+
+         
+         
+         
+</script>
+
+</head>
+
+<body>
+	
+
+</body>
+</html>

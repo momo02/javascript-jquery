@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+
+
+    <script>
+        /*
+         예제 01: 다음 예제를 실행하면 어떤 값이 출력될까요
+         */
+        var userName ="test";
+        // 함수 정의
+        function User(name){
+            // 전역 변수 접근
+            this.userName=name;
+        }
+
+        // 호출
+        User("ddandongne");
+         // User가 클래스를 의미한다고 하더라도 이와 같이 호출하는 경우 일반적인 함수호출이 됨.
+         // 즉, User함수 내부에 위치하고 있는 this는 window가 됨.
+        console.log("1. uesrName = "+userName);
+
+        /*
+        실행결과 :
+         userName = ?
+         */
+
+    </script>
+
+</head>
+    
+<body>
+
+</body>
+</html>

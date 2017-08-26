@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+
+
+    <script>
+        /*
+         예제 06 다음 예제를 실행하면 1,2,3에는 어떤 값이 출력될까요?
+         */
+        var data=10;
+        // 클래스 정의
+        function MyClass() {
+            // 프로퍼티 정의
+            this.data=0;
+        }
+
+        // 메서드 정의
+        MyClass.prototype.method1=function(){
+            function inner(){
+                this.data=20;
+                //★객체 메서드 내부에 만들어지는 '중첩 함수'에서 this는 객체가 아닌 window! 
+                //따라서 전역변수 data에 20 저장.
+                data=30;
+				//이 data 역시 전역변수. 전역변수 data에 30 저장.
+				
+				////var data = 40;
+                console.log("1. data1 = "+data);
+				//먼저 inner함수 내부 지역변수에서 찾고 없으면 > MyClass내부에서 찾고 없으면 > 전역에서 찾음.
+                console.log("2. this.data = "+this.data);
+				// ★ 여기에서 this는 MyClass클래스의 객체가 아니라 window객체 . 주의!
+                console.log("3. window.data = "+window.data);
+				//모두 전역변수에 저장된 값인 30 출력..            
+            }
+
+            inner();
+        }
+
+        // 인스턴스 생성
+        var my1 = new MyClass();
+        // 메서드 호출
+        my1.method1();
+
+        /*
+         실행결과
+         1. data = 30
+         2. this.data = 30
+         3. window.data = 30
+         */
+    </script>
+
+</head>
+    
+<body>
+
+</body>
+</html>
