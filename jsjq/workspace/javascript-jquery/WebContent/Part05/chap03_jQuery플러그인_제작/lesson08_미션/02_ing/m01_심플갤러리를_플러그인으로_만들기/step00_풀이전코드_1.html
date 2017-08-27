@@ -8,13 +8,13 @@
     body {
         font-size:9pt;
     }
-    div.image-container{
+    div.simage-gallery{
         position: relative;
         border:1px solid #000;
         height:600px;
     }
     
-    div.image-container img{
+    div.simage-gallery img{
         position: absolute;
         left:0;
         top:0;
@@ -85,7 +85,7 @@
              
              //디폴트 값을 저장한 객체
              $.defaultOptions = {
- 				 count : 0,
+ 				 count : 5,
                  imageWidth : 200,
                  imageHeight : 200
              }
@@ -93,30 +93,30 @@
              
              
              // 심플 갤러리 생성 플러그인 
-        	 $.fn.simpleGallery = function(options){
+        	 $.fn.simpleGallery = function(optionList){
         		 
-        		// this.each(function(idx){
+        		 this.each(function(idx){
         			 
-        			 options = $.extend(null,$.defaultOptions,options);
+        			 options = $.extend(null,$.defaultOptions,optionList[idx]);
         			 
-        			 console.log(options)
+        			 console.log(options); 
         			 
+        			 var simpleGallery = new SimpleGallery($(this).children('img'), options.count, options.imageWidth, options.imageHeight);
         			 
-        			 var simpleGallery = new SimpleGallery(this, options.count, options.imageWidth, options.imageHeight);
-        			 
-        			 console.log(simpleGallery);
-        			 
+        			 /////simpleGallery.showGallery();
+        			
         			 $(this).data("simpleGallery",simpleGallery);
+        			 ///console.log(simpleGallery)
         			  //SimpleGallery 클래스 인스턴스를  각 노드에 저장해둠.
         			 
-        		// })
+        		 })
         		 
         		 return this;
         		 
         	 }
         	 
              
-             // 이미지 출력 플러그인
+          // 이미지 출력 플러그인
              $.fn.showGallery = function(){
             	 
             	 this.each(function(idx){
@@ -130,7 +130,7 @@
             	 return this;
              }
              
-             
+           
              
          })(jQuery)
          
@@ -139,68 +139,25 @@
          
 
         $(document).ready(function(){
-            // 인스턴스 생성
-            /* var gallery1 = new SimpleGallery("#container1 img", 6, 150, 150);
-            gallery1.showGallery();
-
-            var gallery2 = new SimpleGallery("#container2 img", 4, 200, 200);
-            gallery2.showGallery(); */
-            
-            $("#container1 img").simpleGallery({ count : 6,
+     
+            /* $("#container1 img").simpleGallery({ count : 6,
 									             imageWidth : 150,
 									             imageHeight : 150}).showGallery();
             
             
             $("#container2 img").simpleGallery({ count : 4,
 									             imageWidth : 200,
-									             imageHeight : 200}).showGallery();
+									             imageHeight : 200}).showGallery(); */
+									             
+       	$(".simage-gallery").simpleGallery([{ count : 6,
+									             imageWidth : 150,
+									             imageHeight : 150 },
+								               { count : 4,
+									             imageWidth : 200,
+									             imageHeight : 200}]).showGallery();
             
-            
+						
         });
-
-        /*
-         *@selector : 이미지 목록을 나타내는 css 선택자
-         *@count : 가로로 출력할 이미지 개수
-         *@width : 출력할 이미지 영역 너비
-         *@height :출력할 이미지 영역 높이
-         */
-       /*  function SimpleGallery(selector, count, width, height){
-            // 프로퍼티 생성
-            this.$images = null;
-            this.count =count;
-            this.imageWidth = width;
-            this.imageHeight = height;
-
-            this.init(selector);
-        }
-
-        // 요소 초기화
-        SimpleGallery.prototype.init=function(selector){
-            this.$images = $(selector);
-        }
-
-        // 이미지 출력 메서드 추가
-        SimpleGallery.prototype.showGallery=function(){
-            // 이미지 개수 구하기.
-            var length = this.$images.length;
-
-            // 이미지 배열하기.
-            for(var i=0;i<length;i++){
-                // n번째 이미지 구하기
-                var $img = this.$images.eq(i);
-
-
-                // 위치 값 구하기
-                var x = 100+((i%this.count)*this.imageWidth);
-                var y = 100+(parseInt(i/this.count)*this.imageHeight);
-
-                // 위치 설정
-                $img.css({
-                    left:x,
-                    top:y
-                });
-            }
-        } */
 
     </script>
 
@@ -209,7 +166,7 @@
 <body>
     
     <p>container1</p>
-    <div class="image-container" id="container1">
+    <div class="simage-gallery" id="container1">
        
         <img src="banners/1.png" >
         <img src="banners/2.png" >
@@ -221,7 +178,7 @@
         <img src="banners/8.png" >   
     </div>
      <p>container2</p>
-     <div class="image-container" id="container2">
+     <div class="simage-gallery" id="container2">
          
         <img src="banners/1.png" >
         <img src="banners/2.png" >

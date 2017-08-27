@@ -62,7 +62,7 @@
 
 		$(document).ready(function(){
 			// 플러그인 호출
-			$(".tab-menu").tabMenu().?;
+			$(".tab-menu").tabMenu().selectTabMenuItemAt(1);
 
 		});
 
@@ -105,18 +105,31 @@
 				this.$selectMenuItem.addClass("select");
 			}
 
+			////탭 메뉴 생성 플러그인
 			$.fn.tabMenu=function(){
 				this.each(function(index){
 					// 구현 코드 위치
 					var tabMenu = new TabMenu(this);
-					?
+					$(this).data("tabMenu",tabMenu);
 				})
 
 				return this;
 			}
-
+	
+			////탭 메뉴 선택 플러그인
 			// n번째 탭메뉴 아이템 선택하기
-			?
+			$.fn.selectTabMenuItemAt = function(selectIndex){
+				this.each(function(index){
+					//저장한 TabMenu 객체 구하기
+					var tabMenu = $(this).data("tabMenu");
+					if(tabMenu){
+						//n번째 메뉴 아이템 선택하기
+						tabMenu.setSelectItem(tabMenu.$menuItems.eq(selectIndex));
+					}
+					
+					
+				})
+			}
 
 		})(jQuery)
 

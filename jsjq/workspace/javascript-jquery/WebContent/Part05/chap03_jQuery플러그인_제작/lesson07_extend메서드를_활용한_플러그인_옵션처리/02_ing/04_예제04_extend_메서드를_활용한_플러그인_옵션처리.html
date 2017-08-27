@@ -40,19 +40,24 @@
                 easing:"easeInQuint",
                 delayTime:1000
             }
-            $.fn.removeAni=function(duration, easing, delayTime){
+            $.fn.removeAni=function(options){
                 // 사용자 옵션 정보 유무 판단 후, 값이 없는 경우 기본 값으로 설정
-                duration = duration || $.defaultOptions.duration;
+                /* duration = duration || $.defaultOptions.duration;
                 easing = easing  || $.defaultOptions.easing;
-                delayTime = delayTime || $.defaultOptions.delayTime;
-
-                console.log(duration, easing);
+                delayTime = delayTime || $.defaultOptions.delayTime; */
+				
+                //options = $.extend(null, $.defaultOptions , options)
+               options = $.extend(null, $.defaultOptions , options , {duration : 300}, {duration : 100})
+                
+                
+                console.log(options);
+                
                 // 옵션 값을 변경
                 this.each(function(index){
                     var $target= $(this);
-                    $target.delay(index*delayTime).animate({
+                    $target.delay(index*options.delayTime).animate({
                         height:0
-                    },duration,easing, function(){
+                    },options.duration,options.easing, function(){
                         $target.remove();
                     })
                 })
@@ -63,7 +68,11 @@
 
         $(document).ready(function(){
             // 플러그인 호출
-            $(".menu li").removeAni(5000);
+            //$(".menu li").removeAni(5000);
+            
+        	$(".menu li").removeAni({
+        		duration : 1000
+        	});
         });
 
     </script>
