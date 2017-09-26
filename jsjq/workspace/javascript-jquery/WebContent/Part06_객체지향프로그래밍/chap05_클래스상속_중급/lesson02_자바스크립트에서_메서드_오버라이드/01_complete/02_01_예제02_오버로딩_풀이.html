@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> s</title>
+
+	<script>
+		/*
+		 예제 02: 오버라이드를 활용한 기능 확장
+		 풀이 전 코드를 수정하지 않고 메서드 오버라이드를 이용해 child1.info()을 호출하면 실행결과와 같이 출력되게 만들어 주세요.
+		 실행 결과:
+		 property1 = data1
+		 property2 = data2
+
+
+		 */
+		// 부모 클래스
+		function MyParent(){
+			this.property1= "data1";
+			console.log("MyParent()")
+		}
+
+		MyParent.prototype.info=function(){
+			console.log("property1 = "+this.property1);
+		}
+
+		// 자식 클래스
+		function MyChild(){
+			console.log("MyChild()");
+			this.property2 ="data2";
+		}
+
+		// 부모 클래스 상속
+		MyChild.prototype = new MyParent();
+		// 생성자 설정
+		MyChild.prototype.constructor= MyChild;
+
+		// 메서드 오버라이드를 활용한 기능 확장
+		MyChild.prototype.info=function(){
+			MyParent.prototype.info.call(this);
+			console.log("property2 = "+this.property2);
+		}
+
+
+		// 자식 인스턴스 생성
+		var child1 = new MyChild();
+		// 자식 정보 출력
+		child1.info();
+
+
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> s</title>
+
+	<script>
+		/*
+		 예제 02: 클래스 상속 기능2: 중복 코드 제거
+
+		 단계 02:
+		 	- 중복 코드 제거
+
+		 단계 01:
+		 	- 중복 코드를 담을 부모 클래스 생성
+		 */
+
+		// 중복 코드를 담을 클래스
+		function MyParent(){
+			this.property1=10;
+		}
+		MyParent.prototype.method1=function(){
+			console.log("this.property1 = "+this.property1);
+		}
+
+		// 첫 번째 - MyClassA
+		function MyClassA() {
+
+		}
+
+		MyClassA.prototype. method2=function(){
+			console.log("이 기능은 MyClassA에 있는 기능입니다.");
+		}
+
+		// 두 번째 - MyClassB
+		function MyClassB() {
+
+		}
+
+		MyClassB.prototype.method2=function(){
+		   console.log("이 기능은 MyClassB에 있는 기능입니다.");
+		}
+
+		// 인스턴스 생성
+		var classA = new MyClassA();
+		// 프로퍼티와 메서드 접근
+		console.log("classA.property1 = "+classA.property1);
+		classA.method1();
+		classA.method2();
+
+		var classB = new MyClassB();
+		// 프로퍼티와 메서드 접근
+		console.log("classB.property1 = "+classB.property1);
+		classB.method1();
+		classB.method2();
+
+
+
+
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>

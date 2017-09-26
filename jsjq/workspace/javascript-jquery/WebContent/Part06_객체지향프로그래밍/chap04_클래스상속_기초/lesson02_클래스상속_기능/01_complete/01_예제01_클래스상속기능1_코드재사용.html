@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> s</title>
+
+	<script>
+		/*
+		 예제 01: 클래스 상속 기능 1: 코드 재사용
+		 */
+
+		// 부모 클래스
+		function MyParent(){
+			// 프로퍼티 생성
+			this.property1="value1";
+		}
+
+		// 메서드 생성
+		MyParent.prototype.method1=function(){
+			console.log("MyParent.method1() "+this.property1);
+		}
+
+		// 자식 클래스
+		function MyChild(){
+
+		}
+		// 상속
+		MyChild.prototype = new MyParent();
+
+		// 인스턴스 생성
+		var child1 = new MyChild();
+		// 부모의 프로퍼티와 메서드 호출
+		console.log("child1.property1 = "+ child1.property1);
+		child1.method1();
+
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>

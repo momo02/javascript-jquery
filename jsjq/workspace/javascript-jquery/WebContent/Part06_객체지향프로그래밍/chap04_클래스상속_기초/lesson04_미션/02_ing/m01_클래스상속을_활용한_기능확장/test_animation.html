@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title> </title>
+
+    <style>
+        body {
+            font-size:9pt;
+        }
+        div.image-container{
+            position: relative;
+            border:1px solid #000;
+            height:600px;
+        }
+
+        div.image-container img{
+            position: absolute;
+            left:0;
+            top:0;
+            width:120px;
+        }
+    </style>
+ 
+        
+
+    <script src="../../../libs/jquery-1.11.0.min.js"></script>
+    <script>
+        /*
+         힌트: 이미지 이동 시 부드럽게 움직이는 방법
+
+         jQuery의 animate() 메서드를 이용하면 아주 쉽게 이미지를 부드럽게 움직일 수 있습니다.
+         animate()는 '04부 09장 효과 다루기'를 참고해 주세요.
+         $이미지.animate({
+             left:이동 위치값,
+             top:이동 위치값
+         },이동시간);
+
+
+         */
+
+        $(document).ready(function(){
+
+            $("#btnStart").click(function(){
+               // 이미지를 부드럽게 이동 시키기
+
+            });
+        });
+
+    </script>
+</head>
+    
+<body>
+    <button id="btnStart">이미지 이동</button>
+    <div class="image-container" id="container1">
+        <img src="./banners/1.png" id="target">
+    </div>
+</body>
+</html>

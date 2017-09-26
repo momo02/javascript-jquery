@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> s</title>
+
+	<script>
+		/*
+		예제01:
+		 다음 코드는 사용하는 인스턴스가 특정 클래스의 인스턴스인지 확인하는 예제입니다.
+		 먼저 다음 소스파일을 실행해 주세요.
+
+		 */
+		function MyParent(){
+			this.property1="value1";
+		}
+
+		MyParent.prototype.method1=function(){
+			console.log("property1 = ",this.property1);
+		}
+
+		function MyChild(){
+
+		}
+		MyChild.prototype = new MyParent();
+
+		var parent1 = new MyParent();
+		var child1 = new MyChild();
+
+		// 부모 클래스의 인스턴스인지 확인
+		if(parent1.constructor==MyParent){
+			console.log("1. parent1는 MyParent의 인스턴스입니다.")
+		}
+		// 자식 클래스의 인스턴스인지 확인
+		if(child1.constructor==MyChild){
+			console.log("2. child1 MyChild의 인스턴스입니다.")
+		}
+
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>

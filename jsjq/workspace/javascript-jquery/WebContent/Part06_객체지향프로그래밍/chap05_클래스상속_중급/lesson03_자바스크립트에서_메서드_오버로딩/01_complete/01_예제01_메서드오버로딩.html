@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> s</title>
+
+	<script>
+		/*
+		 예제 01 메서드 오버로딩
+		 다음 실행예와 같이 여러 개의 숫자 값을 더하는 함수를 만들어 주세요.
+		 실행예:
+			 sum(10,20);  결과 30
+			 sum(10,20,30); 결과 60
+			 sum(10,20,30,40,50); 결과 150
+
+
+		 */
+		// 더하기 함수
+		function sum(){
+			var result = 0;
+			for(var i=0;i<arguments.length;i++){
+				result+=arguments[i];
+			}
+
+			return result;
+		}
+
+		// 함수 호출
+		console.log(sum(10,20));
+		console.log(sum(10,20,30));
+		console.log(sum(10,20,30,40));
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>

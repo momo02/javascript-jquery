@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title> </title>
+
+	<script>
+		// 부모 클래스
+		function MyParent(){
+			// 프로퍼티 생성
+			this.property1="value1";
+		}
+
+		// 메서드 생성
+		MyParent.prototype.method1=function(){
+			alert(this.property1);
+		}
+
+		// 자식 클래스
+		function MyChild(){
+
+		}
+		// 상속
+		MyChild.prototype = new MyParent();
+
+		// 인스턴스 생성
+		var child1 = new MyChild();
+		child1.method1();
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>
