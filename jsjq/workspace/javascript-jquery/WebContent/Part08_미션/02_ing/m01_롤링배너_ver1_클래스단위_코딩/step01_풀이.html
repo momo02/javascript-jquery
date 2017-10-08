@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title></title>
+
+        <style>
+            .rolling-banner {
+                position: relative;
+                top: 100px;
+                left: 100px;
+                width: 400px;
+                height: 200px;
+
+                overflow:hidden;
+                border: 2px solid #000;
+            }
+
+            .rolling-banner img {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+			#banner1 {
+				top: 250px;
+				left: 250px;
+			}
+        </style>
+
+        <script  type="text/javascript" src="../../libs/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript">
+            /*
+             미션01 롤링 배너 ver 1.0: 클래스 단위 코딩
+             다음과 같이 동작하는 롤링배너를 만들어 주세요.
+             요구사항
+             1. 특정 시간마다 아래에서 위로 이미지가 부드럽게 롤링되며 변하게 만들어 주세요.
+             2. 모든 작업은 prototype 방식으로 클래스로 만들어 주세요.
+             */
+
+            /*
+             step #04
+                - 롤링효과 적용
+
+             step #03
+                - 모션없는 롤링배너 구현
+
+             step #02
+                -  첫 번째 배너 활성화
+
+             step #01
+                - 클래스 생성 및 초기화 작업
+
+             */
+            $(document).ready(function(){
+
+            })
+        </script>
+    </head>
+
+    <body>
+        <div class="rolling-banner" id="banner1">
+            <img src="images/logo_01.jpg">
+            <img src="images/logo_02.jpg">
+            <img src="images/logo_03.jpg">
+            <img src="images/logo_04.jpg">
+            <img src="images/logo_05.jpg">
+            <img src="images/logo_06.jpg">
+        </div>
+    </body>
+</html>
+

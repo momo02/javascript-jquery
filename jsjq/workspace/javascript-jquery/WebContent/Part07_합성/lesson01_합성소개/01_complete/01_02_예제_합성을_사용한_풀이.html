@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+
+	<style>
+		div.image-container {
+			position: relative;
+			border:1px solid #000;
+			height:300px;
+		}
+		div.image-container img {
+
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 120px;
+		}
+
+	</style>
+
+	<script type="text/javascript"  src="../../libs/jquery-1.11.0.min.js"></script>
+	<script>
+		/*
+			 예제 :
+			 이미지를 3열로 배치해주세요.
+			 단 이미지 배열 크기는 200,200으로 해주세요.
+		 */
+		$(document).ready(function() {
+			// 인스턴스 생성
+			var gallery1 = new SimpleGallery("#container1 img");
+			// 가로 이미지 정렬 기능 호출
+			gallery1.align();
+		});
+
+		// 심플갤러리 클래스
+		function SimpleGallery(selector){
+			this.$images = $(selector);
+		}
+
+
+		// 이미지를 가로로 정렬
+		SimpleGallery.prototype.align=function(){
+			// 합성을 이용해 가로 정릴 기능 활용
+			HAlignable.align(this.$images);
+		}
+
+		// 가로 정렬 기능을 구한한 인스턴스
+		var HAlignable = {
+			// 정렬 메서드 만들기
+			align:function($images){
+				// 이미지 개수 구하기.
+				var length = $images.length;
+				// 이미지 배열하기.
+				for (var i = 0; i < length; i++) {
+					// 위치 계산
+					var x = i * 200;
+					// 위치 설정
+					$images.eq(i).css({
+						left : x,
+						top:0
+					});
+				}
+			}
+		}
+
+	</script>
+</head>
+
+<body>
+	<div class="image-container" id="container1">
+		<img src="banners/1.png" >
+		<img src="banners/2.png" >
+		<img src="banners/3.png" >
+		<img src="banners/4.png" >
+		<img src="banners/5.png" >
+		<img src="banners/6.png" >
+		<img src="banners/7.png" >
+		<img src="banners/8.png" >
+	</div>
+</body>
+</html>

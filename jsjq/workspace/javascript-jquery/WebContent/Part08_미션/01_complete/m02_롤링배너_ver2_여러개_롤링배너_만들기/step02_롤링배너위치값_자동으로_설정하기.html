@@ -1,0 +1,170 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    
+    <style>
+
+        .rolling-banner{
+            position:absolute;
+            overflow:hidden;
+            border:2px solid #000;
+        }
+
+        .rolling-banner img{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+        }
+
+        #banner1 {
+            top:250px;
+            left:50px;
+            width:400px;
+            height:200px;
+        }
+
+        #banner2 {
+            top:250px;
+            left:500px;
+            width:200px;
+            height:100px;
+        }
+    </style>
+    
+    <script  type="text/javascript" src="../../libs/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+
+        /*
+        미션 02 롤링배너 ver 2.0 : 여러 개의 롤링배너 만들기
+         요구사항에 맞게 작성해주세요.
+         1. RollingBanner 클래스 하나로 여러 개의 롤링 배너를 만들 수 있게 수정해 주세요.
+         2. 배너 전환 시간을 설정할 수 있게 만들어 주세요.
+         3. 롤링 효과 시간을 설정할 수 있게 만들어 주세요.
+
+
+        단계02
+            - 롤링 배너 위치 값 자동으로 설정하기
+
+        단계01
+            - 여러 개의 롤링배너를 만들수 있게 수정
+
+         */
+        $(document).ready(function() {
+            var rolling1 = new RollingBanner("#banner1");
+            var rolling2 = new RollingBanner("#banner2");
+
+        })
+        function RollingBanner(selector) {
+            // 프로퍼티 생성및 초기화
+            this._$banners = null;
+            this._currentIndex = 0;
+
+            this._timerID = -1;
+            // step #02
+            this._bannerHeight=0;
+
+
+            this._init(selector);
+            this._initBannerPos();
+
+
+            this.startAutoPlay();
+        }
+
+        // 요소 초기화.
+        RollingBanner.prototype._init = function(selector) {
+            this._$banners = $(selector).children("img");
+            // step #02
+            this._bannerHeight = this._$banners.eq(0).height();
+
+        }
+        // 배너 위치 초기화
+        RollingBanner.prototype._initBannerPos = function() {
+            // 배너 위치를 화면에서 보이지 않게 숨기기
+            // step #02
+            this._$banners.css("top", this._bannerHeight);
+
+            // 0번째 배너 활성화
+            this._$banners.eq(this._currentIndex).css("top", 0);
+        }
+
+
+        RollingBanner.prototype.startAutoPlay = function() {
+            var objThis = this;
+
+            // 타이머가 두번 이상 실행되지 않게 조건 처리
+            if (this._timerID == -1) {
+                this._timerID = setInterval(function() {
+                    objThis.nextBanner();
+                }, 2000)
+            }
+        }
+
+
+        // 다음 배너 활성화
+        RollingBanner.prototype.nextBanner = function() {
+
+            // 현재 index값 구하기
+            var outIndex = this._currentIndex;
+            // 다음 배너 index값 구하기
+            this._currentIndex++;
+            // 마지막 배너까지 롤링한 경우 다시 0번째부터 롤링될 수 있게 인덱스 값을 0으로 설정
+            if (this._currentIndex >= this._$banners.length) {
+                this._currentIndex = 0;
+            }
+
+            // 현재 배너 구하기
+            var $outBanner = this._$banners.eq(outIndex);
+            // 다음 배너 구하기
+            var $inBanner = this._$banners.eq(this._currentIndex);
+
+
+            // 롤링 준비-다음 배너 위치 초기화
+            $inBanner.css({
+                top:this._bannerHeight,
+                opacity:0
+            })
+
+            // 현재 배너 사라지게 하기
+            $outBanner.stop().animate({
+                top:-this._bannerHeight,
+                opacity:0
+            },600);
+
+
+            // 다음 배너 나타나게 하기
+            $inBanner.stop().animate({
+                top:0,
+                opacity:1
+            },600);
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="rolling-banner" id="banner1">
+        <img src="images/logo_01.jpg">
+        <img src="images/logo_02.jpg">
+        <img src="images/logo_03.jpg">
+        <img src="images/logo_04.jpg">
+        <img src="images/logo_05.jpg">
+        <img src="images/logo_06.jpg">
+    </div>    
+    <div class="rolling-banner" id="banner2">
+        
+        <img src="images/logo_02.jpg">
+        <img src="images/logo_03.jpg">
+        <img src="images/logo_04.jpg">
+        <img src="images/logo_05.jpg">
+        <img src="images/logo_06.jpg">
+        <img src="images/logo_01.jpg">
+    </div>
+</body>
+</html>
+
+
+
