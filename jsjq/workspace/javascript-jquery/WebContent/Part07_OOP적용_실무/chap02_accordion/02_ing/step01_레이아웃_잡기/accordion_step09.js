@@ -1,79 +1,35 @@
 /* 
- * 폴더 아코디언 jQuery 플러그인 제작 
- * + 폴더 아코디언 선택 처리 플러그인 만들기.
+ * 사용자 정의 이벤트 발생 처리 2
+ * - 메뉴 아이템을 선택하는 경우 select이벤트
  */
 
-(function($){
-	//folderAccordionMenu 플러그인
-	$.fn.folderAccordionMenu = function(){
-		//선택자에 해당하는 요소 개수만큼 FolderAccordionMenu 객체 생성
-		this.each(function(index){
-			var $this = $(this);
-			var menu = new FolderAccordionMenu($this);
-			//생성한 FolderAccordionMenu객체를 해당 jQuery객체에 저장.
-			$this.data("folderAccordionMenu",menu); 
-			
-		})
-		return this;
-	}
-
-	//n번째 메뉴 선택 
-	$.fn.selectFolderAccordionMenu = function(mainIndex,subIndex,animation){
-		this.each(function(index){
-			var accordionMenu =  $(this).data("folderAccordionMenu");
-			//이미 만들어둔 동일 기능 함수인 selectMenu메서드를 사용.
-			accordionMenu.selectMenu(mainIndex,subIndex,animation);
-		})
-		return this;
-	}
-	
-	
-})(jQuery)
 
 //폴더 아코디언 기능을 담을 FolderAccordionMenu 클래스
 function FolderAccordionMenu(selector){
 	//내부에서 사용하는 변수는 반드시 생성자에 선언한 후 사용!!
 	this.$accordionMenu = null;
-	this._$mainMenuItems = null;
+	this.$mainMenuItems = null;
 	
 	//선택 서브 메뉴아이템
-	this._$selectSubItem = null;
+	this.$selectSubItem = null;
 	
-	this._init(selector);
-	this._initSubMenuPanel(selector);
-	this._initEvent();
+	this.init(selector);
+	this.initSubMenuPanel(selector);
+	this.initEvent();
 }
 
 /*
  * 요소 초기화
  */
-FolderAccordionMenu.prototype._init =function(selector){
+FolderAccordionMenu.prototype.init =function(selector){
 	this.$accordionMenu = $(selector);
-	this._$mainMenuItems = this.$accordionMenu.children("li");
-}
-
-
-
-/* 
- * 이벤트 초기화
- */
-FolderAccordionMenu.prototype._initEvent = function($item){
-	var objThis = this;
-	this._$mainMenuItems.children(".main-title").click(function(e){
-		var $item = $(this).parent(); //li 객체 
-		objThis.toggleSubMenuPanel($item);
-	})
-	
-	//서브 메뉴아이템에 클릭 이벤트 리스너를 추가.
-	this._$mainMenuItems.find(".sub li").click(function(e){
-		objThis._selectSubMenuItem($(this));
-	})
+	this.$mainMenuItems = this.$accordionMenu.children("li");
 }
 
 /*
  * 폴더 상태 설정
  */
-FolderAccordionMenu.prototype._setFolderState = function($item,state){
+FolderAccordionMenu.prototype.setFolderState = function($item,state){
 	var $folder = $item.find(".main-title .folder");
 	//기존 클래스를 모두 제거
 	$folder.removeClass();
@@ -84,24 +40,24 @@ FolderAccordionMenu.prototype._setFolderState = function($item,state){
 /*
  * 서브 패널 초기화 - 초기 시작 시 닫힌 상태로 만들기
  */
-FolderAccordionMenu.prototype._initSubMenuPanel = function(){
+FolderAccordionMenu.prototype.initSubMenuPanel = function(){
 	var objThis = this;
 	
-	this._$mainMenuItems.each(function(index){
+	this.$mainMenuItems.each(function(index){
 		var $item = $(this);
 		var $subMenu = $item.find(".sub");
 		
 		//서브가 없는 경우
 		if($subMenu.length == 0){
 			$item.attr("data-extension","empty");
-			objThis._setFolderState($item,"empty");
+			objThis.setFolderState($item,"empty");
 		}else{
 			if($item.attr("data-extension") == "open"){
-				//objThis._setFolderState($item,"open");
+				//objThis.setFolderState($item,"open");
 				objThis.openSubMenu($item,false);
 			}else{ //서브메뉴가 있는데 open이 아닌 경우는  close라 간주  
 				//$item.attr("data-extension","close")
-				//objThis._setFolderState($item,"close");
+				//objThis.setFolderState($item,"close");
 				objThis.closeSubMenu($item,false);
 			}
 			
@@ -131,10 +87,10 @@ FolderAccordionMenu.prototype.openSubMenu = function($item,animation){
 		}
 		
 		//폴더 상태를 open상태로 만들기(폴더 아이콘 변경)
-		this._setFolderState($item,"open");
+		this.setFolderState($item,"open");
 		
 		//open 이벤트 발생
-		this._dispatchOpenCloseEvent($item, "open");
+		this.dispatchOpenCloseEvent($item, "open");
 	}
 }
 
@@ -159,15 +115,30 @@ FolderAccordionMenu.prototype.closeSubMenu = function($item,animation){
 		}
 		
 		//폴더 상태를 close상태로 만들기(폴더 아이콘 변경)
-		this._setFolderState($item,"close");
+		this.setFolderState($item,"close");
 		
 		//close 이벤트 발생
-		this._dispatchOpenCloseEvent($item, "close");
+		this.dispatchOpenCloseEvent($item, "close");
 	}
 	
 }
 
 
+/* 
+ * 이벤트 초기화
+ */
+FolderAccordionMenu.prototype.initEvent = function($item){
+	var objThis = this;
+	this.$mainMenuItems.children(".main-title").click(function(e){
+		var $item = $(this).parent(); //li 객체 
+		objThis.toggleSubMenuPanel($item);
+	})
+	
+	//서브 메뉴아이템에 클릭 이벤트 리스너를 추가.
+	this.$mainMenuItems.find(".sub li").click(function(e){
+		objThis.selectSubMenuItem($(this));
+	})
+}
 
 /* 
  * 서브 메뉴 패널 열고 닫기
@@ -192,7 +163,7 @@ FolderAccordionMenu.prototype.toggleSubMenuPanel = function($item){
  * index 메뉴의 서브 메뉴패널 열기
  */
 FolderAccordionMenu.prototype.openSubMenuAt = function(index,animation){
-	var $item = this._$mainMenuItems.eq(index);
+	var $item = this.$mainMenuItems.eq(index);
 	this.openSubMenu($item,animation)
 	
 }
@@ -201,7 +172,7 @@ FolderAccordionMenu.prototype.openSubMenuAt = function(index,animation){
  * index 메뉴의 서브 메뉴패널 닫기
  */
 FolderAccordionMenu.prototype.closeSubMenuAt = function(index,animation){
-	var $item = this._$mainMenuItems.eq(index);
+	var $item = this.$mainMenuItems.eq(index);
 	this.closeSubMenu($item,animation)
  }
 
@@ -209,23 +180,23 @@ FolderAccordionMenu.prototype.closeSubMenuAt = function(index,animation){
 /*
  * 서브 메뉴아이템 선택
  */
-FolderAccordionMenu.prototype._selectSubMenuItem = function($item){
-	var $oldItem = this._$selectSubItem;
+FolderAccordionMenu.prototype.selectSubMenuItem = function($item){
+	var $oldItem = this.$selectSubItem;
 	
-	if(this._$selectSubItem != null){
-		this._$selectSubItem.removeClass("select");
+	if(this.$selectSubItem != null){
+		this.$selectSubItem.removeClass("select");
 	}	
-		this._$selectSubItem = $item;
-		this._$selectSubItem.addClass("select");
+		this.$selectSubItem = $item;
+		this.$selectSubItem.addClass("select");
 	
 	//선택 이벤트 발생.
-	this._dispatchSelectEvent($oldItem,this._$selectSubItem);
+	this.dispatchSelectEvent($oldItem,this.$selectSubItem);
 }
 
 
 FolderAccordionMenu.prototype.selectMenu = function(mainIndex,subIndex,animation){
 	//메인 메뉴 아이템 
-	var $item = this._$mainMenuItems.eq(mainIndex);
+	var $item = this.$mainMenuItems.eq(mainIndex);
 	//서브 메뉴 아이템
 	var $subMenuItem = $item.find(".sub li").eq(subIndex);
 	//서브 메뉴 아이템이 존재하는 경우에만 처리 
@@ -233,12 +204,12 @@ FolderAccordionMenu.prototype.selectMenu = function(mainIndex,subIndex,animation
 		//서브 메뉴 패널 열기
 		this.openSubMenu($item,animation);
 		//서브 메뉴 아이템 선택
-		this._selectSubMenuItem($subMenuItem);
+		this.selectSubMenuItem($subMenuItem);
 	}
 }
 
 // 서브 메뉴패널이 열리고 닫히는 이벤트를 전문으로 발생시키는 메서드.
-FolderAccordionMenu.prototype._dispatchOpenCloseEvent = function($item, eventName){
+FolderAccordionMenu.prototype.dispatchOpenCloseEvent = function($item, eventName){
 	var event = jQuery.Event(eventName); //발생할 이벤트 이름을 생성자에 넣어준다.
 	event.$target = $item; 
 	
@@ -247,7 +218,7 @@ FolderAccordionMenu.prototype._dispatchOpenCloseEvent = function($item, eventNam
 }
 
 // select 이벤트 발생
-FolderAccordionMenu.prototype._dispatchSelectEvent = function($oldItem, $newItem){
+FolderAccordionMenu.prototype.dispatchSelectEvent = function($oldItem, $newItem){
 	var event = jQuery.Event("select");
 	event.$oldItem = $oldItem;
 	event.$newItem = $newItem;

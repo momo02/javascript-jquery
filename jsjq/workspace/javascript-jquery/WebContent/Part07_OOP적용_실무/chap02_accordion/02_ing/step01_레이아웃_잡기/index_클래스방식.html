@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD Xhtml 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" type="text/css" href="../css/accordion.css">
 	<style>
 	 	* {
@@ -77,19 +78,44 @@
 		 */
 
 		$(document).ready(function(){
+			var accordion = new FolderAccordionMenu(".accordion-menu"); 
+	
+			// #step05
+			//부드럽게 0번째 메뉴 열기
+			//accordion.openSubMenuAt(0,true);
+			//즉시 2번째 메뉴 닫기
+			//accordion.closeSubMenuAt(2,true);
+			
+			// #step07
+			//accordion.selectMenu(1,1,true);
+			
+			// #step08
+			accordion.$accordionMenu.on("open",function(e){
+				console.log("open >> ",e.$target.find(".main-title a").text());				
+			})
+			
+			accordion.$accordionMenu.on("close",function(e){
+				console.log("close >> ",e.$target.find(".main-title a").text());				
+			})
 
-
+			// #step09
+			accordion.$accordionMenu.on("select",function(e){
+				debugger;
+				var oldText = "없음";
+				if(e.$oldItem){
+					oldText = e.$oldItem.text();
+				}
+				console.log("select old = " + oldText +", new = " + e.$newItem.text());
+			})
+			
 		})
-
-
-
 	</script>
 
 </head>
 
 <body>	
 	<ul class="accordion-menu" id="accordionMenu1">
-		<li>
+		<li data-extension="close">
 			<div class="main-title"><span class="folder"> </span><a>menu1</a></div>
 			<ul class="sub">
 				<li><a>sub1-1</a></li>
@@ -98,7 +124,7 @@
 				<li><a>sub1-4</a></li>
 			</ul>
 		</li>		
-		
+		<!-- 서브메뉴가 있는데 data-extension을 넣지않은 경우 기본값 close가 설정   -->
 		<li>
 			<div class="main-title"><span class="folder "> </span><a>menu2</a></div>
 			<ul class="sub">
@@ -106,7 +132,7 @@
 				<li><a>sub2-2</a></li>
 			</ul>
 		</li>	
-		<li>
+		<li data-extension="close">
 			<div class="main-title"><span class="folder"> </span><a>menu3</a> </div>
 			<ul class="sub">
 				<li><a>sub3-1</a></li>
@@ -117,6 +143,7 @@
 				<li><a>sub3-6</a></li>
 			</ul>
 		</li>
+		<!-- 서브메뉴가 없을 경우  data-extension값은 empty가 설정.-->
 		<li>
 			<div class="main-title"><span class="folder empty"> </span><a>menu4</a></div>
 		</li>

@@ -1,34 +1,7 @@
 /* 
- * 폴더 아코디언 jQuery 플러그인 제작 
- * + 폴더 아코디언 선택 처리 플러그인 만들기.
+ * 캡슐화 적용
  */
 
-(function($){
-	//folderAccordionMenu 플러그인
-	$.fn.folderAccordionMenu = function(){
-		//선택자에 해당하는 요소 개수만큼 FolderAccordionMenu 객체 생성
-		this.each(function(index){
-			var $this = $(this);
-			var menu = new FolderAccordionMenu($this);
-			//생성한 FolderAccordionMenu객체를 해당 jQuery객체에 저장.
-			$this.data("folderAccordionMenu",menu); 
-			
-		})
-		return this;
-	}
-
-	//n번째 메뉴 선택 
-	$.fn.selectFolderAccordionMenu = function(mainIndex,subIndex,animation){
-		this.each(function(index){
-			var accordionMenu =  $(this).data("folderAccordionMenu");
-			//이미 만들어둔 동일 기능 함수인 selectMenu메서드를 사용.
-			accordionMenu.selectMenu(mainIndex,subIndex,animation);
-		})
-		return this;
-	}
-	
-	
-})(jQuery)
 
 //폴더 아코디언 기능을 담을 FolderAccordionMenu 클래스
 function FolderAccordionMenu(selector){
