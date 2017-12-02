@@ -1,73 +1,37 @@
 
-//단계 08_이미지 슬라이더 플러그인 만들기 
-//단계 8-1 : 이미지 슬라이더 플러그인 만들기
-//단계 8-2 : n번째 이미지 선택 플러그인 만들기
-
-
-(function($){
-	
-	$.fn.imageSlider = function(options){
-		this.each(function(index){
-			var imageSlider = new ImageSlider(this,options)
-			
-			//n번째 인덱스에 해당하는 이미지를 보여주는 기능인
-			//ImageSlider 글래스의 showImageAt()메서드를 호출하기위해 
-			//생성한 ImageSlider객체를 해당 jquery 객체에 저장해둠.
-			$(this).data("imageSlider",imageSlider);
-			
-			
-		})
-		
-		return this;
-	}
-	
-	
-	$.fn.showImage = function(slideIndex){
-		this.each(function(index){
-			
-			var imageSlider = $(this).data("imageSlider");
-			imageSlider.showImageAt(slideIndex)
-		})
-		
-		return this;
-		
-	}
-	
-	
-})(jQuery)
-
-
-
+//단계 06_이미지 전환 옵션 처리
+//단계 6-1 : 이미지 전환 옵션만들기 
+//단계 6-2 : 이미지 전환 옵션 적용
 
 
 function ImageSlider(selector,options){ //이미지 슬라이더 기능을 담을 클래스 
 	this.$imageSlider = null;
-	this._$images = null;
+	this.$images = null;
 	
 	//step #02-02
-	this._currentIndex = -1; //현재 선택한 이미지 인덱스 정보를 담을 프로퍼티 
+	this.currentIndex = -1; //현재 선택한 이미지 인덱스 정보를 담을 프로퍼티 
 	
 	//이미지의 너비는 이미지 활성화/비활성화에 사용됨
-	this._imageWidth = 0;
+	this.imageWidth = 0;
 	
 	// step #03-01
-	this._$indexItems = null; //인덱스 메뉴 아이템을 담을 프로퍼티
+	this.$indexItems = null; //인덱스 메뉴 아이템을 담을 프로퍼티
 	
 	// step #05
-	this._timerID = 0; //타이머 아이디
+	this.timerID = 0; //타이머 아이디
 	//this.autoPlayDelayTime = 1000; //이미지 전환 지연 시간
 	
 	// step #06
-	this._options = null;
+	this.options = null;
 	
-	this._init(selector);
-	this._initImages();
+	this.init(selector);
+	this.initImages();
 	
 	// step #06
-	this._initOptions(options);
+	this.initOptions(options);
 	
 	//step #02-02
-	this._initEvent();
+	this.initEvent();
 	
 	//0번째 이미지 활성화
 	this.showImageAt(0);
@@ -91,8 +55,8 @@ ImageSlider.defaultOptions = {
 
 //step #06
 //기본 옵션값과 사용자 옵션값을 합치기 
-ImageSlider.prototype._initOptions = function(options){
-	this._options = $.extend({},ImageSlider.defaultOptions,options )
+ImageSlider.prototype.initOptions = function(options){
+	this.options = $.extend({},ImageSlider.defaultOptions,options )
 	// 최종 옵션값은 기본 옵션값과 사용자 옵션값이 합해져 만들어짐.
 	// 기본 옵션 속성 중 사용자 옵션에 있는것은 사용자 옵션의 속성값으로 덮어쓰게되며 사용자 옵션에 없는 속성은 기본 옵션값을 그대로 사용. 
 
@@ -102,15 +66,15 @@ ImageSlider.prototype._initOptions = function(options){
  * step #02-01
  * 요소 초기화
  */
-ImageSlider.prototype._init = function(selector){
+ImageSlider.prototype.init = function(selector){
 	this.$imageSlider = $(selector);
-	this._$images = this.$imageSlider.find(".slider-body img");
+	this.$images = this.$imageSlider.find(".slider-body img");
 	
 	//이미지 슬라이더의 너비 찾기
 	//이미지의 너비는 이미지 활성화/비활성화에 사용됨
-	this._imageWidth = this.$imageSlider.find(".slider-body").width();
+	this.imageWidth = this.$imageSlider.find(".slider-body").width();
 	
-	this._$indexItems = this.$imageSlider.find(".index-nav li a");
+	this.$indexItems = this.$imageSlider.find(".index-nav li a");
 	
 	
 }
@@ -119,8 +83,8 @@ ImageSlider.prototype._init = function(selector){
  * step #02-01
  * 이미지 요소 초기화
  */
-ImageSlider.prototype._initImages = function(selector){
-	this._$images.each(function(){
+ImageSlider.prototype.initImages = function(selector){
+	this.$images.each(function(){
 		$(this).css({
 			opacity : 0.0 //초기 시작 시 모든 이미지를 화면에서 보이지 않게 초기화 
 		})
@@ -133,7 +97,7 @@ ImageSlider.prototype._initImages = function(selector){
  * step #02-02
  * 이벤트 처리
  */
-ImageSlider.prototype._initEvent = function(){
+ImageSlider.prototype.initEvent = function(){
 	
 	var objThis = this;
 	this.$imageSlider.find(".slider-btn-prev").on("click",function(){
@@ -145,11 +109,11 @@ ImageSlider.prototype._initEvent = function(){
 	})
 	
 	// step #03-02
-	this._$indexItems.on("mouseenter",function(){
-		var index = objThis._$indexItems.index(this); //★현재 마우스가 들어온 인덱스 메뉴 아이템 객체의 인덱스
+	this.$indexItems.on("mouseenter",function(){
+		var index = objThis.$indexItems.index(this); //★현재 마우스가 들어온 인덱스 메뉴 아이템 객체의 인덱스
 		
 		//기존 선택과 현재 선택의 비교 방향 알아내기
-		if(objThis._currentIndex > index) //현재인덱스보다 작은 인덱스를 선택 -> 이전 이미지 선택 효과 
+		if(objThis.currentIndex > index) //현재인덱스보다 작은 인덱스를 선택 -> 이전 이미지 선택 효과 
 			objThis.showImageAt(index,"prev")
 		else
 			objThis.showImageAt(index,"next")
@@ -175,19 +139,19 @@ ImageSlider.prototype._initEvent = function(){
 ImageSlider.prototype.showImageAt = function(index,direction){
 	//인덱스 값 구하기
 	if(index < 0){ // 0번째보다 작아지면 
-		index = this._$images.length - 1; //제일마지막 이미지의 인덱스 (제일 마지막 이미지로) 
+		index = this.$images.length - 1; //제일마지막 이미지의 인덱스 (제일 마지막 이미지로) 
 	}
 	
-	if(index >= this._$images.length){ //마지막 인덱스보다 커지면 
+	if(index >= this.$images.length){ //마지막 인덱스보다 커지면 
 		index = 0; //다시 처음 이미지 로 
 	}
 	
 	//테스트용 
-	console.log("_currentIndex="+this._currentIndex +", newIndex=" + index );
+	console.log("currentIndex="+this.currentIndex +", newIndex=" + index );
 	
 	//인덱스 값에 해당하는 이미지 요소 구하기
-	var $currentImage = this._$images.eq(this._currentIndex);
-	var $newImage = this._$images.eq(index);
+	var $currentImage = this.$images.eq(this.currentIndex);
+	var $newImage = this.$images.eq(index);
 
 	//현재 이미지는 비활성화, 신규 이미지는 활성화
 	/*$currentImage.css({
@@ -206,13 +170,13 @@ ImageSlider.prototype.showImageAt = function(index,direction){
 		//prev,next에 따른 이동 위치 값 설정하기
 		//prev가 기본
 		//prev는 현재 이미지가 오른쪽으로 사라지고 새 이미지가 왼쪽에서 나타나야함 
-		var currentEndLeft = this._imageWidth; //현재이미지가 변할(종료될) left값 
-		var nextStartLeft = -this._imageWidth; //신규 이미지의 시작 left값 
+		var currentEndLeft = this.imageWidth; //현재이미지가 변할(종료될) left값 
+		var nextStartLeft = -this.imageWidth; //신규 이미지의 시작 left값 
 		
 		//next는 현재 이미지가 왼쪽으로 사라지고 새 이미지가 오른쪽에서 나타나야함
 		if(direction == "next"){
-			currentEndLeft = -this._imageWidth;
-			nextStartLeft = this._imageWidth;
+			currentEndLeft = -this.imageWidth;
+			nextStartLeft = this.imageWidth;
 		}
 		
 		
@@ -221,7 +185,7 @@ ImageSlider.prototype.showImageAt = function(index,direction){
 		$currentImage.stop().animate({
 			left : currentEndLeft,
 			opacity : 0
-		},this._options.animationDuration,this._options.animationEasing)
+		},this.options.animationDuration,this.options.animationEasing)
 		
 		
 		//신규 이지미 활성화 전에 애니메이션 시작 위치 설정하기
@@ -235,7 +199,7 @@ ImageSlider.prototype.showImageAt = function(index,direction){
 		$newImage.stop().animate({
 			left : 0, // 현재 이미지로 보여지도록  
 			opacity : 1
-		},this._options.animationDuration,this._options.animationEasing)
+		},this.options.animationDuration,this.options.animationEasing)
 	
 	
 	}else{
@@ -256,41 +220,41 @@ ImageSlider.prototype.showImageAt = function(index,direction){
 	
 	// step #03-01
 	// n번째 인덱스 아이템 처리
-	this._selectIndexAt(index)
+	this.selectIndexAt(index)
 	
 	//현재 이미지 인덱스 값 업데이트
-	var oldIndex = this._currentIndex;
-	this._currentIndex = index;
+	var oldIndex = this.currentIndex;
+	this.currentIndex = index;
 	
-	this._dispatchChangeEvent(oldIndex,this._currentIndex);
+	this.dispatchChangeEvent(oldIndex,this.currentIndex);
 }
 
 
 
 ImageSlider.prototype.prevImage = function(){
 	
-	this.showImageAt(this._currentIndex-1,"prev");
+	this.showImageAt(this.currentIndex-1,"prev");
 }
 
 
 
 ImageSlider.prototype.nextImage = function(){
 	
-	this.showImageAt(this._currentIndex+1,"next");
+	this.showImageAt(this.currentIndex+1,"next");
 }
 
 /*
  * step #03-01
  * n번째 인덱스 아이템 선택
  */
-ImageSlider.prototype._selectIndexAt = function(index){
+ImageSlider.prototype.selectIndexAt = function(index){
 	
 	//현재 이미지 의  인덱스 메뉴 아이템에 select 효과 제거  
-	if(this._currentIndex != -1)
-		this._$indexItems.eq(this._currentIndex).removeClass("select")	
+	if(this.currentIndex != -1)
+		this.$indexItems.eq(this.currentIndex).removeClass("select")	
 	
 		//현재 인덱스 의 메뉴 아이템에 select 효과 주기
-	this._$indexItems.eq(index).addClass("select")
+	this.$indexItems.eq(index).addClass("select")
 		
 }
 
@@ -298,7 +262,7 @@ ImageSlider.prototype._selectIndexAt = function(index){
  * step #04
  * change 이벤트 발생
  */
-ImageSlider.prototype._dispatchChangeEvent = function(oldIndex, newIndex){
+ImageSlider.prototype.dispatchChangeEvent = function(oldIndex, newIndex){
 	
 	var event = jQuery.Event("change"); //"change"라는 이벤트를 만든다.파라미터는 이벤트 name
 	event.oldIndex = oldIndex;
@@ -314,8 +278,8 @@ ImageSlider.prototype.startAutoPlay = function(){
 	var objThis = this;
 	
 	//step #06
-	if(this._options.autoPlay == true){
-		if(this._timerID == 0){
+	if(this.options.autoPlay == true){
+		if(this.timerID == 0){
 			
 			/* cf.setInterval은 window객체의 함수여서, 파라미터 function내에서 this는 window객체가 된다.
 			function 내에서 this를 ImageSlider객체로 유지할수 있게 하기위해서
@@ -323,11 +287,11 @@ ImageSlider.prototype.startAutoPlay = function(){
 			[proxy의미 . 대리인. 대리권. 데이터를 가져올 때 해당 사이트에서 바로 자신의 PC로 가져오는 것이 아니라 임시 저장소를 거쳐서 가져오는 것] */
 	
 			//이미지 전환 지연 시간(this.autoPlayDelayTime)마다  nextImage()메서드를 호출
-			this._timerID = setInterval($.proxy(function(){
+			this.timerID = setInterval($.proxy(function(){
 				this.nextImage(); //여기서 this는 ImageSlider객체가됨. 
 			
 				//objThis.nextImage(); //$.proxy함수 안쓰고 이렇게해도 동일함!
-			},this), this._options.autoPlayDelayTime)
+			},this), this.options.autoPlayDelayTime)
 		}
 	}
 }
@@ -337,10 +301,10 @@ ImageSlider.prototype.startAutoPlay = function(){
 //자동 전환 기능 멈춤 
 ImageSlider.prototype.stopAutoPlay = function(){
 	//step #06
-	if(this._options.autoPlay == true){
-		if(this._timerID!=0){
-			clearInterval(this._timerID);
-			this._timerID = 0;
+	if(this.options.autoPlay == true){
+		if(this.timerID!=0){
+			clearInterval(this.timerID);
+			this.timerID = 0;
 		}
 	}
 }

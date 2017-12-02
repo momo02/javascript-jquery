@@ -92,7 +92,25 @@
 		 */
 
 		$(document).ready(function(){
-
+			//var tabPanel = new TabPanel(".tab-panel","fade");
+			//tabPanel.setSelectTabMenuItemAt(1);
+			
+			//var tabPanel = new TabPanel(".tab-panel",TabPanel.slideEffect); //효과 객체 전달
+		
+			/* var tabPanel = new TabPanel(".tab-panel",{
+				startIndex : 2,
+				effect : TabPanel.slideEffect,
+				duration : 500
+			});  */
+			
+			//step #07
+			$(".tab-panel").tabPanel({
+				effect : TabPanel.slideEffect,
+				startIndex : 3
+			}).selectTabPanel(1);
+		
+			//$(".tab-panel").selectTabPanel(2);
+			
 		});
 	</script>
 

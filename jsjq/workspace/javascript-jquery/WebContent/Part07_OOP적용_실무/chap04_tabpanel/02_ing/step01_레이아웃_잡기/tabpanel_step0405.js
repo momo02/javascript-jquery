@@ -1,98 +1,53 @@
-/*	  	 * step #07
-		 *      - jQuery 플러그인 제작
-		 *
-		 *      step #07-02
-		 *          - 탭 패널 선택 플러그인 제작
-		 *
-		 *      step #07-01
-		 *          - tabPanel 플러그인 제작
+/*	     * step #04
+		 *      다형성 적용하기
+		 *      step #04-05
+		 *          - 다형성과 합성을 활용한 출력효과 적용
 */
 
-
-(function($){
+function TabPanel(selector,effect){
 	
-	$.fn.tabPanel = function(options){
-		
-		this.each(function(idx){
-			
-			var tabPanel = new TabPanel(this,options)
-		
-			$(this).data("tabPanel",tabPanel);
-		})
-		
-		return this;
-	}
+	this.$tabPanel = null;
+	this.$tabMenu = null;
+	this.$tabMenuItems = null;
+	this.$selectTabMenuItem = null;
 	
-	$.fn.selectTabPanel = function(index, animation){
-		
-		this.each(function(idx){
-			
-			var tabPanel = $(this).data("tabPanel");
-			if(tabPanel){
-				tabPanel.setSelectTabMenuItemAt(index,animation);
-			}
-			
-		})
-		
-		return this;
-	}
-	
-	
-})(jQuery)
-
-
-
-
-
-function TabPanel(selector,options){
-	
-	this._$tabPanel = null;
-	this._$tabMenu = null;
-	this._$tabMenuItems = null;
-	this._$selectTabMenuItem = null;
-	
-	this._$tabContents = null;
-	this._$selectTabContent = null;
+	this.$tabContents = null;
+	this.$selectTabContent = null;
 	//this.effect = "";
-	this._effect = null;
+	this.effect = null;
 	
-	this._options = null;
-	this._tabContentWidth = -1;
+	this.tabContentWidth = -1;
 	
-	this._init(selector);
-	this._initEvent();
-	//this.initEffect(_effect);
-	this._initOptions(options);
+	this.init(selector);
+	this.initEvent();
+	this.initEffect(effect);
 	
-	
-	this._initTabContents();
+	this.initTabContents();
 	
 	//0번째 탭메뉴 아이템을 기본값으로 선택
-	//this.setSelectTabMenuItemAt(0,false);
-	
-	this.setSelectTabMenuItemAt(this._options.startIndex,false);
+	this.setSelectTabMenuItemAt(0,false);
 	
 }
 
 //요소 초기화
-TabPanel.prototype._init = function(selector){
+TabPanel.prototype.init = function(selector){
 	
-	this._$tabPanel = $(selector);
-	this._$tabMenu = this._$tabPanel.children(".tab-menu");
+	this.$tabPanel = $(selector);
+	this.$tabMenu = this.$tabPanel.children(".tab-menu");
 	
-	this._$tabMenuItems = this._$tabMenu.children("li");
+	this.$tabMenuItems = this.$tabMenu.children("li");
 	
-	this._$tabContents = this._$tabPanel.find(".tab-contents .content");
+	this.$tabContents = this.$tabPanel.find(".tab-contents .content");
 	
-	this._tabContentWidth = this._$tabPanel.find(".tab-contents").width();
+	this.tabContentWidth = this.$tabPanel.find(".tab-contents").width();
 	
 }
 
 //이벤트 초기화
-TabPanel.prototype._initEvent = function(){
+TabPanel.prototype.initEvent = function(){
 	
 	var objThis = this;
-	this._$tabMenuItems.on("click",function(e){
+	this.$tabMenuItems.on("click",function(e){
 		
 		//<a>태그 클릭 시 기본 행동 취소
 		e.preventDefault();
@@ -103,14 +58,14 @@ TabPanel.prototype._initEvent = function(){
 
 
 //탭 콘텐츠 초기화 (모든 탭내용이 화면에 보이지않게 초기화)
-TabPanel.prototype._initTabContents = function(){
-	this._$tabContents.css({
+TabPanel.prototype.initTabContents = function(){
+	this.$tabContents.css({
 		opacity : 0
 	});
 }
 
 //효과 초기화
-/*TabPanel.prototype.initEffect = function(effect){
+TabPanel.prototype.initEffect = function(effect){
 	this.effect = effect;
 	//기본값 설정
 	if(this.effect == null){
@@ -118,49 +73,37 @@ TabPanel.prototype._initTabContents = function(){
 		this.effect = TabPanel.normalEffect;
 		
 	}
-}*/
-
-//기본 옵션값
-TabPanel.defaultOptions = {
-		startIndex : 0,
-		easing : "easeInCubic",
-		duration : 500,
-		effect : TabPanel.slideEffect
+	
 }
 
-
-TabPanel.prototype._initOptions = function(options){
-	this._options = jQuery.extend({},TabPanel.defaultOptions,options)
-	this._effect = this._options.effect;
-}
 
 
 //탭메뉴 아이템 선택
 TabPanel.prototype.setSelectTabMenuItem = function($item,animation){
-	if(this._$selectTabMenuItem){
-		this._$selectTabMenuItem.removeClass("select");
+	if(this.$selectTabMenuItem){
+		this.$selectTabMenuItem.removeClass("select");
 	}	
-		this._$selectTabMenuItem = $item;
-		this._$selectTabMenuItem.addClass("select");
+		this.$selectTabMenuItem = $item;
+		this.$selectTabMenuItem.addClass("select");
 		
 	// 탭메뉴 선택 시, 탭메뉴에 해당하는 탭내용을 활성화하기 위해 
 	// 선택된 탭메뉴 인덱스값을 매개변수로  showContentAt메서드 호출.	
-	var newIndex = this._$tabMenuItems.index(this._$selectTabMenuItem);
-	this._showContentAt(newIndex,animation);
+	var newIndex = this.$tabMenuItems.index(this.$selectTabMenuItem);
+	this.showContentAt(newIndex,animation);
 }
 
 //index 번째 탭메뉴 아이템 선택
 TabPanel.prototype.setSelectTabMenuItemAt = function(index,animation){
-	this.setSelectTabMenuItem(this._$tabMenuItems.eq(index), animation)
+	this.setSelectTabMenuItem(this.$tabMenuItems.eq(index), animation)
 	
 }
 
 
 //index에 맞는 탭내용 활성화 
-TabPanel.prototype._showContentAt = function(index,animation){
+TabPanel.prototype.showContentAt = function(index,animation){
 	//1.활성화/비활성화 탭내용 찾기
-	var $hideContent = this._$selectTabContent;
-	var $showContent = this._$tabContents.eq(index);
+	var $hideContent = this.$selectTabContent;
+	var $showContent = this.$tabContents.eq(index);
 	
 	if(animation == false){
 		
@@ -169,19 +112,16 @@ TabPanel.prototype._showContentAt = function(index,animation){
 		TabPanel.normalEffect.effect({ //오브젝트 리터럴로 만들어 전달.
 			$hideContent : $hideContent,
 			$showContent : $showContent
+			
 		})
 		
 	}else{
 		
-		this._effect.effect({ //오브젝트 리터럴로 만들어 전달.
+		TabPanel.effect.effect({ //오브젝트 리터럴로 만들어 전달.
 			$hideContent : $hideContent,
 			$showContent : $showContent,
 			showIndex : index,
-			tabContentWidth : this._tabContentWidth,
-			//추가
-			duration : this._options.duration,
-			easing : this._options.easing
-			
+			tabContentWidth : this.tabContentWidth
 		})
 		
 		//이렇게 코딩을 해두면 신규 효과가 추가된다 하더라도
@@ -208,9 +148,12 @@ TabPanel.prototype._showContentAt = function(index,animation){
 //	}
 	
 	//4.선택 탭내용 업데이트
-	this._$selectTabContent = $showContent;
+	this.$selectTabContent = $showContent;
 	
 }
+
+
+
 
 
 ///하나의 독립된 클래스로 분리.
@@ -270,7 +213,7 @@ TabPanel.slideEffect = {
 				params.$hideContent.stop().animate({
 					left : hideEndLeft,
 					opacity : 0
-				}, params.duration, params.easing)
+				}, 500, "easeOutQuint")
 			}
 			
 			//신규 탭내용 활성화
@@ -285,7 +228,7 @@ TabPanel.slideEffect = {
 			params.$showContent.stop().animate({
 				left : 0,
 				opacity : 1
-			}, params.duration, params.easing)
+			}, 500, "easeOutQuint")
 		
 }
 
@@ -301,14 +244,14 @@ TabPanel.fadeEffect = {
 				params.$hideContent.stop().animate({
 					left : 0,
 					opacity : 0
-				},params.duration, params.easing)
+				}, 500, "easeOutQuint")
 			}
 			
 			//신규 탭내용 활성화
 			params.$showContent.stop().animate({
 				left : 0,
 				opacity : 1
-			}, params.duration, params.easing)
+			}, 500, "easeOutQuint")
 			
 		}
 }

@@ -1,43 +1,6 @@
 
-//단계 08_이미지 슬라이더 플러그인 만들기 
-//단계 8-1 : 이미지 슬라이더 플러그인 만들기
-//단계 8-2 : n번째 이미지 선택 플러그인 만들기
-
-
-(function($){
-	
-	$.fn.imageSlider = function(options){
-		this.each(function(index){
-			var imageSlider = new ImageSlider(this,options)
-			
-			//n번째 인덱스에 해당하는 이미지를 보여주는 기능인
-			//ImageSlider 글래스의 showImageAt()메서드를 호출하기위해 
-			//생성한 ImageSlider객체를 해당 jquery 객체에 저장해둠.
-			$(this).data("imageSlider",imageSlider);
-			
-			
-		})
-		
-		return this;
-	}
-	
-	
-	$.fn.showImage = function(slideIndex){
-		this.each(function(index){
-			
-			var imageSlider = $(this).data("imageSlider");
-			imageSlider.showImageAt(slideIndex)
-		})
-		
-		return this;
-		
-	}
-	
-	
-})(jQuery)
-
-
-
+//단계 07_캡슐화 적용 
+//캡슐화를 적용해 외부에서 사용할 요소와 내부에서 사용할 요소를 나누는작업. 
 
 
 function ImageSlider(selector,options){ //이미지 슬라이더 기능을 담을 클래스 

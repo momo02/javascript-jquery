@@ -1,48 +1,6 @@
-/*	  	 * step #07
-		 *      - jQuery 플러그인 제작
-		 *
-		 *      step #07-02
-		 *          - 탭 패널 선택 플러그인 제작
-		 *
-		 *      step #07-01
-		 *          - tabPanel 플러그인 제작
+/*	  	 * step #06
+		 *      - 캡슐화
 */
-
-
-(function($){
-	
-	$.fn.tabPanel = function(options){
-		
-		this.each(function(idx){
-			
-			var tabPanel = new TabPanel(this,options)
-		
-			$(this).data("tabPanel",tabPanel);
-		})
-		
-		return this;
-	}
-	
-	$.fn.selectTabPanel = function(index, animation){
-		
-		this.each(function(idx){
-			
-			var tabPanel = $(this).data("tabPanel");
-			if(tabPanel){
-				tabPanel.setSelectTabMenuItemAt(index,animation);
-			}
-			
-		})
-		
-		return this;
-	}
-	
-	
-})(jQuery)
-
-
-
-
 
 function TabPanel(selector,options){
 	

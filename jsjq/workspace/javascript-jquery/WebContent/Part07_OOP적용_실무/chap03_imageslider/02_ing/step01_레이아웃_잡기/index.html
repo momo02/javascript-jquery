@@ -96,7 +96,38 @@
 		 */
 		
 		$(document).ready(function(){
-
+			
+/* 			//step #02-01
+			var imageSlider = new ImageSlider(".image-slider",{
+				startIndex : 2,
+				autoPlay : true,
+				animationDuration : 3000
+			});
+			
+			//step #03-01
+			imageSlider.showImageAt(2);
+			
+			//step #04 (사용자 정의 이벤트가 정상적으로 발생하는지 change이벤트 리스너를 등록하여 확인.)
+			imageSlider.$imageSlider.on("change",function(e){
+				
+				console.log("e.oldIndex=" +e.oldIndex+", e.newIndex=" +e.newIndex);
+				
+			}) */
+			
+			// step #08
+			var $imageSlider = $(".image-slider").imageSlider({
+				startIndex : 2
+			});
+			
+			$imageSlider.showImage(3);
+			
+			$imageSlider.on("change",function(e){
+				
+				console.log("e.oldIndex=" +e.oldIndex+", e.newIndex=" +e.newIndex);
+				
+			})
+			
+			
 		});
 	</script>
 		 
